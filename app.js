@@ -5,6 +5,7 @@ const bodyParser = require("body-parser")
 const getUsers = require("./services/getUsers")
 const saveUser = require("./services/saveUser")
 const saveExercise = require("./services/saveExercise")
+const getLogs = require("./services/getLogs")
 const dbConnection = require("./database/connection")
 
 config()
@@ -29,4 +30,8 @@ app.post("/api/users", async (req, res) => res.send(await saveUser(req.body)))
 
 app.post("/api/users/:_id/exercises", async (req, res) =>
   res.send(await saveExercise({ id: req.params._id, ...req.body }))
+)
+
+app.get("/api/users/:_id/logs", async (req, res) =>
+  res.send(await getLogs({ id: req.params._id, ...req.body }))
 )
