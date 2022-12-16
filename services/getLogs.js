@@ -11,6 +11,7 @@ const getLogs = async ({ id, from, to, limit }) => {
         description: item.description,
         duration: +item.duration,
         date: item.date,
+        created_at: item.created_at
       })),
     },
     limit,
