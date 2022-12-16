@@ -2,6 +2,9 @@ const express = require("express")
 const cors = require("cors")
 const { config } = require("dotenv")
 const bodyParser = require("body-parser")
+const getUsers = require("./services/getUsers")
+const saveUser = require("./services/saveUser")
+const dbConnection = require("./database/connection")
 
 config()
 
@@ -13,6 +16,12 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 const port = process.env.PORT || 3030
 
+dbConnection()
+
 app.listen(port, () => console.log(`Server is listening on port ${port}`))
 
 app.get("/", (req, res) => res.sendFile(__dirname + "/views/index.html"))
+
+app.get("/api/users", async (req, res) => res.send(await getUsers()))
+
+app.post("/api/users", async (req, res) => res.send(await saveUser(req.body)))
