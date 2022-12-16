@@ -27,6 +27,9 @@ const getLogs = async ({ id, from = null, to = null, limit = null }) => {
       return sessionDate >= fromDate && sessionDate <= toDate
     })
   }
+
+  response.count = response.log.length
+
   return response
 }
 
