@@ -28,8 +28,8 @@ const saveExercise = async ({ id, description, duration, date }) => {
     _id: user._id,
     username: user.username,
     date: exercise.date,
+    duration: +exercise.duration,
     description: exercise.description,
-    duration: exercise.duration,
   }
 }
 

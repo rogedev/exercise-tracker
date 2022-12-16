@@ -7,7 +7,11 @@ const getLogs = async ({ id, from, to, limit }) => {
     {
       _id: user._id,
       username: user.username,
-      log: user.log,
+      log: user.log.map((item) => ({
+        description: item.description,
+        duration: +item.duration,
+        date: item.date,
+      })),
     },
     limit,
     from,
