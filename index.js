@@ -33,5 +33,5 @@ app.post("/api/users/:_id/exercises", async (req, res) =>
 )
 
 app.get("/api/users/:_id/logs", async (req, res) =>
-  res.send(await getLogs({ id: req.params._id, ...req.body }))
+  res.send(await getLogs({ id: req.params._id, ...req.query }))
 )

@@ -1,16 +1,23 @@
 const { User } = require("../database/schemas/user")
 
-const getLogs = async ({ id, from = null, to = null, limit = null }) => {
+const getLogs = async ({ id, from, to, limit }) => {
   const user = await User.findById(id).exec()
 
-  const response = {
-    _id: user._id,
-    username: user.username,
-    log: user.log,
-  }
+  const response = applyFilters(
+    {
+      _id: user._id,
+      username: user.username,
+      log: user.log,
+    },
+    limit,
+    from,
+    to
+  )
 
-  if (limit) response.log = user.log.slice(0, limit)
+  return response
+}
 
+const applyFilters = (data, limit, from, to) => {
   if (from || to) {
     let fromDate = new Date(0)
     let toDate = new Date()
@@ -22,15 +29,17 @@ const getLogs = async ({ id, from = null, to = null, limit = null }) => {
     fromDate = fromDate.getTime()
     toDate = toDate.getTime()
 
-    response.log = response.log.filter((session) => {
-      let sessionDate = new Date(session.date).getTime()
+    data.log = data.log.filter((session) => {
+      let sessionDate = new Date(session.created_at).getTime()
       return sessionDate >= fromDate && sessionDate <= toDate
     })
   }
 
-  response.count = response.log.length
+  if (limit) data.log = data.log.slice(0, limit)
 
-  return response
+  data.count = data.log.length
+
+  return data
 }
 
 module.exports = getLogs

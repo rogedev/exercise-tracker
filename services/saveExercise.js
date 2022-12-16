@@ -2,10 +2,12 @@ const { Exercise } = require("../database/schemas/exercise")
 const { User } = require("../database/schemas/user")
 
 const saveExercise = async ({ id, description, duration, date }) => {
+  const exerciseDate = date ? new Date(date) : new Date()
   const exercise = new Exercise({
     description,
     duration: +duration,
-    date: date ? new Date(date).toDateString() : new Date().toDateString(),
+    date: exerciseDate.toDateString(),
+    created_at: exerciseDate,
   })
 
   await exercise.save()
