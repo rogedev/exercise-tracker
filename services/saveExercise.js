@@ -5,7 +5,7 @@ const saveExercise = async ({ id, description, duration, date }) => {
   const exercise = new Exercise({
     description,
     duration: +duration,
-    date: new Date(date).toDateString(),
+    date: date ? new Date(date).toDateString() : new Date().toDateString(),
   })
 
   await exercise.save()
